@@ -21,11 +21,13 @@ namespace HOT.Equipment
             foreach (var type in (EquipmentType[])Enum.GetValues(typeof(EquipmentType)))
                 cells.Add(type, new EquipmentCell());
         }
-        
-        public void EquipWeapon(Item item)
+
+        public void Equip(HOT.Inventory.Item.Equipment equipment)
         {
-            GetCell(EquipmentType.Weapon).SetItem(item);
-            WeaponEquiped.Fire();
+            GetCell(equipment.EquipmentType).SetItem(equipment);
+            
+            if (equipment.EquipmentType == EquipmentType.Weapon)
+                WeaponEquiped.Fire();
         }
 
         public int GetDamageModifier()

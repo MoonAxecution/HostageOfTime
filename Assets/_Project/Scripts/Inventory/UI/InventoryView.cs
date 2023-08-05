@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HOT.Addressable;
@@ -15,8 +16,13 @@ namespace HOT.Inventory.UI
         [SerializeField] private AssetReference cellAsset;
         [SerializeField] private Transform cellParent;
 
-        private InventoryItemApplyer inventoryItemApplyer = new InventoryItemApplyer();
+        private InventoryItemApplyer inventoryItemApplyer;
         private Dictionary<InventoryCellView, InventoryCell> cellsMap;
+
+        private void Awake()
+        {
+            inventoryItemApplyer = new InventoryItemApplyer();
+        }
 
         public void Init(InventoryCell[] cells)
         {

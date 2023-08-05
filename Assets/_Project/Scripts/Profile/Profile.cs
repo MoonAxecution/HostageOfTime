@@ -34,7 +34,7 @@ namespace HOT.Profile
 
         public void EquipWeapon(Weapon weapon)
         {
-            equipment.EquipWeapon(weapon);
+            equipment.Equip(weapon);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using HOT.Equipment;
 using HOT.Inventory.Item;
 using UnityEngine;
@@ -8,57 +7,31 @@ namespace HOT.UI
     public class EquipmentView : MonoBehaviour
     {
         [Inject] private ItemsDatabase itemsDatabase;
+
+        [SerializeField] private EquipmentCellView[] cellViews;
+
+        private Equipment.Equipment equipment;
         
-        [SerializeField] private EquipmentCellView weaponCellView;
-        [SerializeField] private EquipmentCellView armorCellView;
-        [SerializeField] private EquipmentCellView bootsCellView;
-
-        private EquipmentCell weaponCell;
-        private EquipmentCell armorCell;
-        private EquipmentCell bootsCell;
-
-        public void Init(EquipmentCell weaponCell, EquipmentCell armorCell, EquipmentCell bootsCell)
+        public void Init(Equipment.Equipment equipment)
         {
             this.Inject();
+            this.equipment = equipment;
 
-            this.weaponCell = weaponCell;
-            this.weaponCell.Equiped += UpdateWeaponCell;
-            
-            this.armorCell = armorCell;
-            this.armorCell.Equiped += UpdateArmorCell;
-
-            this.bootsCell = bootsCell;
-            this.bootsCell.Equiped += UpdateBootsCell;
-
-            UpdateWeaponCell();
-            UpdateArmorCell();
-            UpdateBootsCell();
+            foreach (var cellView in cellViews)
+            {
+                EquipmentCell equipmentCell = equipment.GetCell(cellView.EquipmentType);
+                cellView.Init(equipmentCell, GetItemIcon(equipmentCell));
+                cellView.CellUpdated += OnEquipmentCellUpdated;
+            }
         }
 
-        private void UpdateWeaponCell()
+        private void OnEquipmentCellUpdated(EquipmentCellView cellView)
         {
-            weaponCellView.InitIcon(GetItemIcon(weaponCell));
-        }
-        
-        private void UpdateArmorCell()
-        {
-            armorCellView.InitIcon(GetItemIcon(armorCell));
-        }
-        
-        private void UpdateBootsCell()
-        {
-            bootsCellView.InitIcon(GetItemIcon(bootsCell));
+            cellView.InitIcon(GetItemIcon(equipment.GetCell(cellView.EquipmentType)));
         }
 
         private Sprite GetItemIcon(EquipmentCell cell) => cell.IsFilled ? GetItemSettings(cell.ItemId).Icon : null;
         
         private ItemSettings GetItemSettings(int itemId) => itemsDatabase.GetItem(itemId);
-
-        private void OnDestroy()
-        {
-            this.weaponCell.Equiped -= UpdateWeaponCell;
-            this.armorCell.Equiped -= UpdateArmorCell;
-            this.bootsCell.Equiped -= UpdateBootsCell;
-        }
     }
 }

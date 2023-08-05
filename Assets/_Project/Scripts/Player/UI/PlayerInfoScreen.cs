@@ -1,4 +1,3 @@
-using HOT.Equipment;
 using HOT.Inventory.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,11 +20,7 @@ namespace HOT.UI
             timeView.Init(profile.Time);
             inventoryView.Init(profile.Cells);
 
-            equipmentView.Init(GetCell(EquipmentType.Weapon), 
-                GetCell(EquipmentType.Armor),
-                GetCell(EquipmentType.Boots));
+            equipmentView.Init(profile.Equipment);
         }
-        
-        private EquipmentCell GetCell(EquipmentType type) => profile.Equipment.GetCell(type);
     }
 }

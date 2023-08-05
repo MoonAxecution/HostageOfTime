@@ -16,5 +16,6 @@ MonoBehaviour:
   id: 1
   itemName: MCX
   icon: {fileID: 21300000, guid: f02177de26c0045408fbc1e4d72ca5dd, type: 3}
+  equipmentType: 3
   minDamage: 10
   maxDamage: 15

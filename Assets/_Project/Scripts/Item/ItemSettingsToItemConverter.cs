@@ -2,12 +2,26 @@
 {
     public static class ItemSettingsToItemConverter
     {
-        public static Item GetItem(ItemSettings itemSettings)
+        public static Equipment GetEquipmentItem(EquipmentSettings settings)
         {
-            if (itemSettings is WeaponSettings weaponSettings)
-                return new Weapon(weaponSettings.Type, weaponSettings.Id, weaponSettings.ItemName, weaponSettings.MinDamage, weaponSettings.MaxDamage);
+            if (settings is WeaponSettings weaponSettings)
+            {
+                return new Weapon(weaponSettings.Type, weaponSettings.Id, weaponSettings.ItemName, 
+                    weaponSettings.EquipmentType, weaponSettings.MinDamage, weaponSettings.MaxDamage);   
+            }
 
-            return new Item(itemSettings.Type, itemSettings.Id, itemSettings.ItemName);
+            return new Equipment(settings.Type, settings.Id, settings.ItemName, settings.EquipmentType);
+        }
+        
+        public static Item GetItem(ItemSettings settings)
+        {
+            if (settings is WeaponSettings weaponSettings)
+            {
+                return new Weapon(weaponSettings.Type, weaponSettings.Id, weaponSettings.ItemName, 
+                    weaponSettings.EquipmentType, weaponSettings.MinDamage, weaponSettings.MaxDamage);   
+            }
+
+            return new Item(settings.Type, settings.Id, settings.ItemName);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace HOT.Player
 
         [Header("Components")]
         [SerializeField] private CharacterController characterController;
+        [SerializeField] private EquipmentView equipmentView;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform playerTransform;
         [SerializeField] private Transform playerCamera;
@@ -34,19 +35,33 @@ namespace HOT.Player
         private async void Awake()
         {
             this.Inject();
+            
+            await InitComponents();
 
-            profile.Equipment.WeaponEquiped += UpdateAnimationArmedState;
-            
-            input = new PlayerInput();
-            locomotion = new PlayerLocomotion(characterController, playerTransform);
-            
-            animation = new PlayerAnimation(animator);
             UpdateAnimationArmedState();
 
+            tickerMono.Add(this);
+            
+            profile.Equipment.WeaponEquiped += OnWeaponEquiped;
+        }
+
+        private async Task InitComponents()
+        {
+            input = new PlayerInput();
+            locomotion = new PlayerLocomotion(characterController, playerTransform);
+            animation = new PlayerAnimation(animator);
+            
+            if (profile.Equipment.IsWeaponSet)
+                equipmentView.EquipWeapon();
+            
             playerLocationScreen = await DependencyInjector.Resolve<UIManager>().OpenScreen<PlayerLocationScreen>(playerLocationScreenAsset);
             await LoadAsset<GameObject>(playerRendererCameraAsset, playerRendererCameraSpawnPoint);
-            
-            tickerMono.Add(this);
+        }
+
+        private void OnWeaponEquiped()
+        {
+            equipmentView.EquipWeapon();
+            UpdateAnimationArmedState();
         }
 
         public void Tick(float deltaTime)
@@ -92,7 +107,7 @@ namespace HOT.Player
 
         private void OnDestroy()
         {
-            profile.Equipment.WeaponEquiped -= UpdateAnimationArmedState;
+            profile.Equipment.WeaponEquiped -= OnWeaponEquiped;
             
             input.Dispose();
             tickerMono.Remove(this);

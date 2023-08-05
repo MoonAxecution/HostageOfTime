@@ -26,7 +26,7 @@ namespace HOT.Battle
         private Equipment.Equipment GetRandomEquipment()
         {
             var equipment = new Equipment.Equipment();
-            equipment.EquipWeapon(Random.Range(0, 2) != 0 ? ItemSettingsToItemConverter.GetItem(weapon) : null);
+            equipment.Equip(Random.Range(0, 2) != 0 ? ItemSettingsToItemConverter.GetEquipmentItem(weapon) : null);
 
             return equipment;
         }

@@ -7,7 +7,7 @@ namespace HOT.UI
 {
     public class PlayerBattleScreen : Screen
     {
-        [SerializeField] private TimeView timeView;
+        [SerializeField] private TimeView turnTimerView;
         [SerializeField] private Button attackButton;
 
         public event Action AttackPressed;
@@ -19,7 +19,7 @@ namespace HOT.UI
 
         public void Init(IReactiveProperty<int> timeProperty)
         {
-            timeView.Init(timeProperty);
+            turnTimerView.Init(timeProperty);
         }
         
         private void Attack()
