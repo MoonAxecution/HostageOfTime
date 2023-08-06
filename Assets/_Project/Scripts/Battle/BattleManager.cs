@@ -114,7 +114,7 @@ namespace HOT.Battle
 
         private void EndBattle(bool isWin)
         {
-            playerSide.CloseUI();
+            playerSide.ClearSide();
             ShowResultScreen(isWin);
         }
 

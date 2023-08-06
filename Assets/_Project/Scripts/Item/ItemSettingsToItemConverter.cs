@@ -4,13 +4,17 @@
     {
         public static Equipment GetEquipmentItem(EquipmentSettings settings)
         {
-            if (settings is WeaponSettings weaponSettings)
+            return settings switch
             {
-                return new Weapon(weaponSettings.Type, weaponSettings.Id, weaponSettings.ItemName, 
-                    weaponSettings.EquipmentType, weaponSettings.MinDamage, weaponSettings.MaxDamage);   
-            }
-
-            return new Equipment(settings.Type, settings.Id, settings.ItemName, settings.EquipmentType);
+                WeaponSettings weaponSettings => new Weapon(weaponSettings.Type, weaponSettings.Id,
+                    weaponSettings.ItemName, weaponSettings.EquipmentType, weaponSettings.MinDamage,
+                    weaponSettings.MaxDamage),
+                
+                HelmetSettings helmetSettings => new Armor(helmetSettings.Type, helmetSettings.Id,
+                    helmetSettings.ItemName, helmetSettings.EquipmentType, helmetSettings.AdditionalHealth),
+                
+                _ => new Equipment(settings.Type, settings.Id, settings.ItemName, settings.EquipmentType)
+            };
         }
         
         public static Item GetItem(ItemSettings settings)

@@ -23,6 +23,12 @@ namespace HOT.Components
             currentHealth = new ReactiveProperty<int>(StaticHealth);
             maxHealth = new ReactiveProperty<int>(StaticHealth);
         }
+
+        public void UpdateMaxHealth(int value)
+        {
+            maxHealth.Value = value;
+            currentHealth.Value = maxHealth.Value;
+        }
         
         public void Increase(int value)
         {

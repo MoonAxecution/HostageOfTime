@@ -114,14 +114,10 @@ namespace HOT.Battle
             HideBattleScreen();
             InvokeTurnMadeEvent();
         }
-        
-        public void CloseUI()
+
+        public void ClearSide()
         {
             uiManager.CloseScreen(playerBattleScreen);
-        }
-
-        private void OnDestroy()
-        {
             tickerMono.Remove(turnTimer);
         }
     }

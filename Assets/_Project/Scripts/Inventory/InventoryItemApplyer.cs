@@ -19,7 +19,7 @@ namespace HOT.Inventory
             itemActions = new Dictionary<ItemType, Action<InventoryCell>>
             {
                 {ItemType.Vaccine, ApplyVaccine},
-                {ItemType.Weapon, ApplyWeapon}
+                {ItemType.Equipment, ApplyEquipment}
             };
         }
 
@@ -35,9 +35,9 @@ namespace HOT.Inventory
             inventoryCell.UseItem();
         }
 
-        private void ApplyWeapon(InventoryCell inventoryCell)
+        private void ApplyEquipment(InventoryCell inventoryCell)
         {
-            profile.EquipWeapon(inventoryCell.Item as Weapon);
+            profile.EquipEquipment(inventoryCell.Item as HOT.Inventory.Item.Equipment);
             inventoryCell.UseItem();
         }
     }

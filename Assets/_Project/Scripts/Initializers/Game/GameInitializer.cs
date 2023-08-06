@@ -63,7 +63,15 @@ namespace HOT
             var profile = new Profile.Profile(resourceTime.Model);
 
             foreach (ItemSettings item in defaultItems)
+            {
+                if (item is EquipmentSettings equipmentSettings)
+                {
+                    profile.AddItem(ItemSettingsToItemConverter.GetEquipmentItem(equipmentSettings));
+                    continue;
+                }
+                
                 profile.AddItem(ItemSettingsToItemConverter.GetItem(item));
+            }
 
             RegisterComponent(profile);
         }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace HOT.Creature
 {
     public class Humanoid : Creature
@@ -11,11 +9,12 @@ namespace HOT.Creature
         public Humanoid(Equipment.Equipment equipment)
         {
             this.equipment = equipment;
+            health.UpdateMaxHealth(health.MaxHealth.Value + this.equipment.GetHealthModifier());
         }
 
         public int GetDamage()
         {
-            return IsArmed ? equipment.GetDamageModifier() : Random.Range(3, 6);
+            return equipment.GetDamage();
         }
     }
 }

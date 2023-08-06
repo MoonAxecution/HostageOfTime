@@ -6,15 +6,10 @@ namespace HOT.UI
 {
     public class LobbyScreen : Screen
     {
-        [Inject] private Profile.Profile profile;
-        
         [Header("Screens")] 
         [SerializeField] private AssetReference playerInfoScreen;
         [SerializeField] private AssetReference mapScreen;
-        
-        [Header("UI")]
-        [SerializeField] private TimeView timeView;
-        
+
         [Header("Buttons")]
         [SerializeField] private Button playerInfoButton;
         [SerializeField] private Button mapButton;
@@ -25,8 +20,6 @@ namespace HOT.UI
 
         protected override void OnAwaken()
         {
-            timeView.Init(profile.Time);
-            
             playerInfoButton.onClick.AddListener(OpenPlayerInfo);
             mapButton.onClick.AddListener(OpenMap);
             pvpButton.onClick.AddListener(OpenPvP);

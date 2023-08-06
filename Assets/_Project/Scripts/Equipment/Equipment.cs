@@ -9,7 +9,6 @@ namespace HOT.Equipment
     {
         private readonly Dictionary<EquipmentType, EquipmentCell> cells;
 
-        public IReadOnlyDictionary<EquipmentType, EquipmentCell> Cells => cells;
         public bool IsWeaponSet => GetCell(EquipmentType.Weapon).Item != null;
 
         public event Action WeaponEquiped;
@@ -30,12 +29,25 @@ namespace HOT.Equipment
                 WeaponEquiped.Fire();
         }
 
-        public int GetDamageModifier()
+        public EquipmentCell GetCell(EquipmentType type) => cells[type];
+
+        public int GetHealthModifier()
+        {
+            Item helmet = GetCell(EquipmentType.Helment).Item;
+            return (helmet as Armor)?.AdditionalHealth ?? 0;
+        }
+        
+        public int GetDamage()
+        {
+            return IsWeaponSet ? GetWeaponDamage() : GetUnarmedDamage();
+        }
+        
+        private int GetWeaponDamage()
         {
             Weapon weapon = GetCell(EquipmentType.Weapon).Item as Weapon;
             return Random.Range(weapon.MinDamage, weapon.MaxDamage + 1);
         }
 
-        public EquipmentCell GetCell(EquipmentType type) => cells[type];
+        private int GetUnarmedDamage() => Random.Range(3, 6);
     }
 }

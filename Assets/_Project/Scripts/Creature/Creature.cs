@@ -5,11 +5,11 @@ namespace HOT.Creature
 {
     public class Creature
     {
-        private readonly Health health;
-        
-        public IHealth Health => health;
+        protected readonly Health health;
         
         public event Action Died;
+
+        public IHealth Health => health;
 
         public Creature()
         {

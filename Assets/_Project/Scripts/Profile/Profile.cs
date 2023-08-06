@@ -32,9 +32,9 @@ namespace HOT.Profile
             resourceTimeModel.IncreaseTime(3600);
         }
 
-        public void EquipWeapon(Weapon weapon)
+        public void EquipEquipment(HOT.Inventory.Item.Equipment item)
         {
-            equipment.Equip(weapon);
+            equipment.Equip(item);
         }
     }
 }

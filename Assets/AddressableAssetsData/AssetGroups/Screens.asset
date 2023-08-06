@@ -87,6 +87,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46e44e479ffc4474aab14c219d0858d6
+    m_Address: Assets/_Project/Scenes/Battle/Scene_Battle.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e337696527abe35489d2385e4b9bc2fa, type: 2}
   m_SchemaSet:
