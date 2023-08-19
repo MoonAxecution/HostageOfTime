@@ -1,5 +1,9 @@
 using System;
 using HOT.Battle.UI;
+using HOT.Equipment;
+using HOT.Inventory.Item;
+using HOT.Player;
+using HOT.Skills;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,37 +16,34 @@ namespace HOT.Battle
         public RuntimeAnimatorController unarmedController;
         public RuntimeAnimatorController riffleController;
 
-        [Header("UI")] 
+        [Header("UI")]
         [SerializeField] private BattleCreatureUI creatureUI;
+        [SerializeField] private EquipmentView equipmentView;
         [SerializeField] private Image healthBar;
 
-        //TODO: Переделать на эквипмент
-        [SerializeField] private GameObject weapon;
-        
         private Creature.Humanoid humanoid;
 
         private AttackStateMachine.AttackStateMachine attackStateMachine;
 
+        public Weapon Weapon => humanoid.Weapon;
+        public Skill[] WeaponSkills => humanoid.WeaponSkills;
+
         public event Action AttackAnimationEnded;
         public event Action<BattleCreatureCompositeRoot> Died;
 
-        public void Init(Equipment.Equipment equipment)
+        public void Init(Creature.Humanoid humanoid)
         {
-            CreateCreature(equipment);
+            this.humanoid = humanoid;
+            humanoid.Died += OnDied;
             
+            equipmentView.Init(humanoid.GetEquipmentCell(EquipmentType.Weapon), humanoid.GetEquipmentCell(EquipmentType.Helmet));
+
             animator.runtimeAnimatorController = humanoid.IsArmed ? riffleController : unarmedController;
-            weapon.SetActive(humanoid.IsArmed);
-            
+
             attackStateMachine = new AttackStateMachine.AttackStateMachine(animator);
             attackStateMachine.AttackAnimationEnded += OnAttackAnimationEnded;
         }
 
-        private void CreateCreature(Equipment.Equipment equipment)
-        {
-            humanoid = new Creature.Humanoid(equipment);
-            humanoid.Died += OnDied;
-        }
-        
         private void OnDied()
         {
             Died.Fire(this);

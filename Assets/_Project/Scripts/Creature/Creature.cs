@@ -11,9 +11,9 @@ namespace HOT.Creature
 
         public IHealth Health => health;
 
-        public Creature()
+        public Creature(int defaultHealth)
         {
-            health = new Health();
+            health = new Health(defaultHealth);
             health.CurrentHealth.Changed += OnHealthChanged;
         }
 

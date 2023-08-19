@@ -32,5 +32,14 @@ namespace HOT.Inventory
             
             return true;
         }
+
+        public void UseItem(InventoryCell cell)
+        {
+            cell.UseItem();
+
+            if (cell.Item != null) return;
+
+            itemsInCellsMap.Remove(cell);
+        }
     }
 }

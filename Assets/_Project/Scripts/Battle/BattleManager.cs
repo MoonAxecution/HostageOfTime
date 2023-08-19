@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using HOT.Battle.UI;
+using HOT.Creature;
 using HOT.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,6 +10,8 @@ namespace HOT.Battle
 {
     public class BattleManager : MonoBehaviour
     {
+        [Inject] private Profile.Profile profile;
+        [Inject] private BattleSetup battleSetup;
         [Inject] private UIManager uiManager;
 
         [SerializeField] private int playerTurnTime;
@@ -64,14 +67,14 @@ namespace HOT.Battle
         
         private async Task CreatePlayerSide()
         {
-            await playerSide.CreateSide();
+            await playerSide.CreateSide(battleSetup.Allies);
             playerSide.TurnStarted += OnPlayerSideTurnStarted;
             playerSide.TurnMade += OnPlayerSideTurnMade;
         }
 
         private void CreateEnemySide()
         {
-            enemySide.CreateSide();
+            enemySide.CreateSide(battleSetup.Enemies);
             enemySide.TurnMade += OnEnemySideTurnMade;
         }
 
@@ -134,6 +137,8 @@ namespace HOT.Battle
 
         private void LoadLobby()
         {
+            DependencyInjector.RemoveComponent<BattleSetup>();
+            
             var scenesLoader = DependencyInjector.Resolve<ScenesLoader>();
             
             if (scenesLoader.IsCurrentSceneAdditive)

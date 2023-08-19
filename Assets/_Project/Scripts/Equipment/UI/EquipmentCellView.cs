@@ -10,41 +10,42 @@ namespace HOT.UI
     {
         [SerializeField] private EquipmentType equipmentType;
         [SerializeField] private Image icon;
-
-        private EquipmentCell cell;
-
+        
         public event Action<EquipmentCellView> Selected;
-        public event Action<EquipmentCellView> CellUpdated;
+        public event Action<EquipmentCellView> Updated;
 
+        public EquipmentCell Cell { get; private set; }
         public EquipmentType EquipmentType => equipmentType;
 
         public void Init(EquipmentCell cell, Sprite iconSpite)
         {
-            this.cell = cell;
-            cell.Equiped += OnEquiped;
+            Cell = cell;
+            Cell.Equiped += OnCellUpdated;
+            Cell.TookOff += OnCellUpdated;
             
-            InitIcon(iconSpite);
+            UpdateIcon(iconSpite);
         }
         
-        public void InitIcon(Sprite sprite)
+        public void UpdateIcon(Sprite sprite)
         {
             icon.sprite = sprite;
             icon.enabled = icon.sprite != null;
         }
 
+        private void OnCellUpdated()
+        {
+            Updated.Fire(this);
+        }
+        
         public void OnPointerDown(PointerEventData eventData)
         {
             Selected.Fire(this);
         }
-        
-        private void OnEquiped()
-        {
-            CellUpdated.Fire(this);
-        }
 
         private void OnDestroy()
         {
-            cell.Equiped -= OnEquiped;
+            Cell.Equiped -= OnCellUpdated;
+            Cell.TookOff -= OnCellUpdated;
         }
     }
 }

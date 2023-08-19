@@ -1,3 +1,4 @@
+using HOT.Creature;
 using HOT.Inventory.Item;
 using UnityEngine;
 
@@ -8,29 +9,19 @@ namespace HOT.Battle
         [SerializeField] private BattleCreatureCompositeRoot creaturePrefab;
         [SerializeField] private WeaponSettings weapon;
         
-        public void CreateSide()
+        public void CreateSide(Humanoid[] allies)
         {
-            SpawnCreatures(creaturePrefab, Random.Range(1, 4));
-            CreateAllies();
+            SpawnCreatures(creaturePrefab, allies.Length);
+            CreateAllies(allies);
         }
         
-        protected override void CreateAllies()
+        protected override void CreateAllies(Humanoid[] allies)
         {
-            foreach (var ally in Allies)
+            for (int i = 0; i < allies.Length; i++)
             {
-                ally.Init(GetRandomEquipment());
-                ally.Died += OnAllyDied;
+                Allies[i].Init(allies[i]);
+                Allies[i].Died += OnAllyDied;
             }
-        }
-
-        private Equipment.Equipment GetRandomEquipment()
-        {
-            var equipment = new Equipment.Equipment();
-            
-            if (Random.Range(0, 2) != 0)
-                equipment.Equip(ItemSettingsToItemConverter.GetEquipmentItem(weapon));
-
-            return equipment;
         }
 
         protected override BattleCreatureCompositeRoot GetAttaackableEnemy() => Enemies[Random.Range(0, Enemies.Count)];

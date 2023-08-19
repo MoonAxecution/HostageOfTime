@@ -6,6 +6,11 @@ namespace HOT.Addressable
 {
     public static class AddressableAssetLoader
     {
+        public async static Task LoadAsset<T>(AssetReference asset, Transform parent)
+        {
+            await AddressableAssetLoader.LoadInstantiatableAsset<T>(asset, parent);
+        }
+        
         public async static Task<T> LoadAsset<T>(AssetReference asset)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(asset);

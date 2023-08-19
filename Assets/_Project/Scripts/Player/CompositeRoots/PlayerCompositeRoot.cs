@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using HOT.Addressable;
+using HOT.Equipment;
 using HOT.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -20,7 +21,8 @@ namespace HOT.Player
         [SerializeField] private AssetReference playerRendererCameraAsset;
         [SerializeField] private Transform playerRendererCameraSpawnPoint;
 
-        [Header("Components")]
+        [Header("Components")] 
+        [SerializeField] private ObjectIdentifier objectIdentifier;
         [SerializeField] private CharacterController characterController;
         [SerializeField] private EquipmentView equipmentView;
         [SerializeField] private Animator animator;
@@ -31,37 +33,48 @@ namespace HOT.Player
         private PlayerInput input;
         private PlayerLocomotion locomotion;
         private PlayerAnimation animation;
+        
+        private IActable currentActableObject;
+
+        public ObjectIdentifier ObjectIdentifier => objectIdentifier;
 
         private async void Awake()
         {
             this.Inject();
+
+            animator.keepAnimatorStateOnDisable = true;
             
             await InitComponents();
 
-            UpdateAnimationArmedState();
-
             tickerMono.Add(this);
-            
-            profile.Equipment.WeaponEquiped += OnWeaponEquiped;
         }
 
         private async Task InitComponents()
         {
             input = new PlayerInput();
             locomotion = new PlayerLocomotion(characterController, playerTransform);
-            animation = new PlayerAnimation(animator);
-            
-            if (profile.Equipment.IsWeaponSet)
-                equipmentView.EquipWeapon();
-            
+            animation = new PlayerAnimation(animator, profile.Equipment.IsWeaponSet);
+
+            equipmentView.Init(profile.Equipment.GetCell(EquipmentType.Weapon), 
+                profile.Equipment.GetCell(EquipmentType.Helmet));
+
+            objectIdentifier.ActableObjectFound += OnActableObjectFound;
+            objectIdentifier.ActableObjectLost += OnActableObjectLost;
+
             playerLocationScreen = await DependencyInjector.Resolve<UIManager>().OpenScreen<PlayerLocationScreen>(playerLocationScreenAsset);
-            await LoadAsset<GameObject>(playerRendererCameraAsset, playerRendererCameraSpawnPoint);
+            playerLocationScreen.Acted += Act;
+            
+            await AddressableAssetLoader.LoadAsset<GameObject>(playerRendererCameraAsset, playerRendererCameraSpawnPoint);
         }
 
-        private void OnWeaponEquiped()
+        private void OnEnable()
         {
-            equipmentView.EquipWeapon();
-            UpdateAnimationArmedState();
+            input.Enable();
+        }
+
+        private void OnDisable()
+        {
+            input.Disable();
         }
 
         public void Tick(float deltaTime)
@@ -98,19 +111,33 @@ namespace HOT.Player
             };
         }
 
-        private void UpdateAnimationArmedState()
+        private void Act()
         {
-            animation.UpdateArmedState(profile.Equipment.IsWeaponSet);
+            currentActableObject.Act();
         }
-        
-        private async Task LoadAsset<T>(AssetReference asset, Transform parent) => await AddressableAssetLoader.LoadInstantiatableAsset<T>(asset, parent);
+
+        private void OnActableObjectFound(IActable actableObject)
+        {
+            currentActableObject = actableObject;
+            playerLocationScreen.ShowActButton();
+        }
+
+        private void OnActableObjectLost()
+        {
+            currentActableObject = null;
+            playerLocationScreen.HideActButton();
+        }
 
         private void OnDestroy()
         {
-            profile.Equipment.WeaponEquiped -= OnWeaponEquiped;
-            
             input.Dispose();
+            animation.Dispose();
             tickerMono.Remove(this);
+        }
+
+        public void SetPlayerCamera(Transform newCameraRef)
+        {
+            playerCamera = newCameraRef;
         }
     }
 }

@@ -17,14 +17,16 @@ namespace HOT.UI
         {
             time = timeProperty;
             time.Changed += SetTime;
+            
+            UpdateTimeColor((float)GetLeftTimeSpan(time.Value).TotalSeconds);
         }
 
         private void SetTime(int value)
         {
-            var timeSpan = TimeSpan.FromSeconds(value);
+            var timeSpan = GetLeftTimeSpan(value);
             
             timeLabel.text = showHours 
-                ? $"{(int)timeSpan.TotalHours}{timeSpan.Minutes::00}:{timeSpan.Seconds:00}" 
+                ? $"{(int)timeSpan.TotalHours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}" 
                 : $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
             
             UpdateTimeColor((float)timeSpan.TotalSeconds);
@@ -35,6 +37,8 @@ namespace HOT.UI
             float colorTime = Mathf.Clamp(value, 0.0f, DateUtils.SecondsInDay) / DateUtils.SecondsInDay;
             timeLabel.color = labelColor.Evaluate(colorTime);
         }
+        
+        private TimeSpan GetLeftTimeSpan(int value) => TimeSpan.FromSeconds(value);
 
         private void OnDestroy()
         {

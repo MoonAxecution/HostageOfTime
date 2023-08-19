@@ -124,6 +124,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &43180485 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8773270201731784625, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 762113991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &109057146
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,11 +599,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 984704966881779924, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 984704966881779924, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -646,30 +647,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5844032148335067423, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4600037304743889633, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 5812703739119760175, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 9162713007108863602, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 2643503788866986277, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 2669380759720714585, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 8278148763174452194, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 228929832309600521, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
-    - {fileID: 8012214349962903206, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
---- !u!1 &762113992 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5844032148335067423, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 762113991}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &762113993 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 984704966881779924, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
@@ -782,6 +764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 870653097}
   - component: {fileID: 870653099}
+  - component: {fileID: 870653100}
   m_Layer: 0
   m_Name: PlayerRoot
   m_TagString: Untagged
@@ -822,8 +805,26 @@ MonoBehaviour:
   unarmedController: {fileID: 9100000, guid: dad2b5ef4abc0f6459e7e97c8a01a15d, type: 2}
   riffleController: {fileID: 9100000, guid: dd35976a0bc566044bfe340f878dd785, type: 2}
   creatureUI: {fileID: 0}
+  equipmentView: {fileID: 870653100}
   healthBar: {fileID: 1891518425}
-  weapon: {fileID: 762113992}
+--- !u!114 &870653100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870653096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4e477aa344eec468da329e279f2ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponParent: {fileID: 43180485}
+  helmetParent: {fileID: 978385880}
+  weaponPrefab: {fileID: 708565261683047321, guid: d6aaacc9a8182ac49b2a4e370c02d43c,
+    type: 3}
+  helmetPrefab: {fileID: 2589655297870380107, guid: 6ca12ad40b9ad7748be2b1846f8332b0,
+    type: 3}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +962,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 4.888, y: -36.381, z: 0}
+--- !u!4 &978385880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1575311578109724964, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 762113991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1111073636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,8 +1323,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298846871}
-  - component: {fileID: 1298846873}
   - component: {fileID: 1298846874}
+  - component: {fileID: 1298846873}
+  - component: {fileID: 1298846875}
   m_Layer: 0
   m_Name: EnemyRoot
   m_TagString: Untagged
@@ -1358,8 +1366,8 @@ MonoBehaviour:
   unarmedController: {fileID: 9100000, guid: dad2b5ef4abc0f6459e7e97c8a01a15d, type: 2}
   riffleController: {fileID: 9100000, guid: dd35976a0bc566044bfe340f878dd785, type: 2}
   creatureUI: {fileID: 1177649255}
+  equipmentView: {fileID: 1298846875}
   healthBar: {fileID: 1908641304}
-  weapon: {fileID: 1809059067}
 --- !u!65 &1298846874
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1381,6 +1389,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.71850073, y: 1.7977185, z: 0.5532484}
   m_Center: {x: -0.0067023635, y: 0.8984406, z: -0.031313896}
+--- !u!114 &1298846875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298846870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4e477aa344eec468da329e279f2ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponParent: {fileID: 1809059067}
+  helmetParent: {fileID: 1809059070}
+  weaponPrefab: {fileID: 708565261683047321, guid: d6aaacc9a8182ac49b2a4e370c02d43c,
+    type: 3}
+  helmetPrefab: {fileID: 2589655297870380107, guid: 6ca12ad40b9ad7748be2b1846f8332b0,
+    type: 3}
 --- !u!1001 &1809059066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1467,9 +1493,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c00cffb7d0b1d3458497dd70f3b17bd, type: 3}
---- !u!1 &1809059067 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5844032148335067423, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
+--- !u!4 &1809059067 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8773270201731784625, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
     type: 3}
   m_PrefabInstance: {fileID: 1809059066}
   m_PrefabAsset: {fileID: 0}
@@ -1482,6 +1508,12 @@ Transform:
 --- !u!95 &1809059069 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6578196820205304494, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1809059066}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1809059070 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1575311578109724964, guid: 2c00cffb7d0b1d3458497dd70f3b17bd,
     type: 3}
   m_PrefabInstance: {fileID: 1809059066}
   m_PrefabAsset: {fileID: 0}

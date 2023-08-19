@@ -12,17 +12,12 @@ namespace HOT.Inventory.UI
     {
         [Inject] private ItemsDatabase itemsDatabase;
         
-        [SerializeField] private ItemsDatabaseSettings itemsSettings;
         [SerializeField] private AssetReference cellAsset;
         [SerializeField] private Transform cellParent;
 
-        private InventoryItemApplyer inventoryItemApplyer;
         private Dictionary<InventoryCellView, InventoryCell> cellsMap;
 
-        private void Awake()
-        {
-            inventoryItemApplyer = new InventoryItemApplyer();
-        }
+        public event Action<InventoryCell> ItemSelected;
 
         public void Init(InventoryCell[] cells)
         {
@@ -45,6 +40,7 @@ namespace HOT.Inventory.UI
             InventoryCellView cellView = Instantiate(cellPrefab, cellParent);
             cellView.Init(cell, GetItemIcon(cell));
             cellView.Selected += OnCellSelected;
+            cellView.Updated += OnCellUpdated;
 
             return cellView;
         }
@@ -55,7 +51,12 @@ namespace HOT.Inventory.UI
             
             if (cell.Item == null) return;
             
-            inventoryItemApplyer.ApplyItem(cell.Item.Type, cell);
+            ItemSelected.Fire(cell);
+        }
+
+        private void OnCellUpdated(InventoryCellView cellView)
+        {
+            cellView.UpdateIcon(GetItemIcon(cellView.Cell));
         }
 
         private Sprite GetItemIcon(InventoryCell cell) => cell.IsFilled ? GetItemSettings(cell.ItemId).Icon : null;

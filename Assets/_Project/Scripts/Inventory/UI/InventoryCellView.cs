@@ -1,5 +1,4 @@
 using System;
-using HOT.Inventory.Item;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,31 +10,39 @@ namespace HOT.Inventory.UI
         [SerializeField] private Image icon;
 
         public event Action<InventoryCellView> Selected;
+        public event Action<InventoryCellView> Updated;
 
         public InventoryCell Cell { get; private set; }
 
         public void Init(InventoryCell cell, Sprite icon)
         {
             Cell = cell;
-            Cell.ItemRemoved += ClearCell;
+            Cell.ItemAdded += OnCellUpdated;
+            Cell.ItemRemoved += OnCellUpdated;
 
-            InitIcon(icon);
+            UpdateIcon(icon);
         }
 
-        private void InitIcon(Sprite sprite)
+        public void UpdateIcon(Sprite sprite)
         {
             icon.sprite = sprite;
             icon.enabled = icon.sprite != null;
         }
 
-        private void ClearCell()
+        private void OnCellUpdated()
         {
-            InitIcon(null);
+            Updated.Fire(this);
         }
         
         public void OnPointerDown(PointerEventData eventData)
         {
             Selected.Fire(this);
+        }
+
+        private void OnDestroy()
+        {
+            Cell.ItemAdded -= OnCellUpdated;
+            Cell.ItemRemoved -= OnCellUpdated;
         }
     }
 }

@@ -19,6 +19,18 @@ namespace HOT.Player
             playerControls.Enable();
         }
 
+        public void Enable()
+        {
+            playerControls.Enable();
+        }
+
+        public void Disable()
+        {
+            playerControls.Disable();
+            VerticalInput = 0;
+            HorizontalInput = 0;
+        }
+
         public void Update()
         {
             HandleMovementInput();

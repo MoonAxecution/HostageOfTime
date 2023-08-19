@@ -4,7 +4,7 @@ namespace HOT.Core.Reactive
 {
     public interface IReactiveProperty<TType>
     {
-        TType Value { get; }
+        TType Value { get; set; }
 
         event Action<TType> Changed;
     }

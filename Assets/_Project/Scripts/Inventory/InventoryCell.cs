@@ -11,12 +11,15 @@ namespace HOT.Inventory
         public int ItemId => item.Id;
         public bool IsFilled => item != null;
 
+        public event Action ItemAdded;
         public event Action ItemRemoved;
 
         public void AddItem(Item.Item item, int count = 1)
         {
             this.item = item;
             this.count = count;
+            
+            ItemAdded.Fire();
         }
 
         public void UseItem()

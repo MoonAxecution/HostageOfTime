@@ -1,3 +1,4 @@
+using System;
 using HOT.Equipment;
 using HOT.Inventory.Item;
 using UnityEngine;
@@ -11,23 +12,36 @@ namespace HOT.UI
         [SerializeField] private EquipmentCellView[] cellViews;
 
         private Equipment.Equipment equipment;
+
+        public event Action<EquipmentCell> EquipmentSelected;
         
         public void Init(Equipment.Equipment equipment)
         {
             this.Inject();
             this.equipment = equipment;
 
-            foreach (var cellView in cellViews)
-            {
-                EquipmentCell equipmentCell = equipment.GetCell(cellView.EquipmentType);
-                cellView.Init(equipmentCell, GetItemIcon(equipmentCell));
-                cellView.CellUpdated += OnEquipmentCellUpdated;
-            }
+            foreach (EquipmentCellView cellView in cellViews)
+                CreateCell(cellView);
         }
 
-        private void OnEquipmentCellUpdated(EquipmentCellView cellView)
+        private void CreateCell(EquipmentCellView cellView)
         {
-            cellView.InitIcon(GetItemIcon(equipment.GetCell(cellView.EquipmentType)));
+            EquipmentCell equipmentCell = equipment.GetCell(cellView.EquipmentType);
+            cellView.Init(equipmentCell, GetItemIcon(equipmentCell));
+            cellView.Selected += OnCellSelected;
+            cellView.Updated += OnCellUpdated;
+        }
+        
+        private void OnCellSelected(EquipmentCellView cellView)
+        {
+            if (cellView.Cell.Item == null) return;
+            
+            EquipmentSelected.Fire(cellView.Cell);
+        }
+
+        private void OnCellUpdated(EquipmentCellView cellView)
+        {
+            cellView.UpdateIcon(GetItemIcon(equipment.GetCell(cellView.EquipmentType)));
         }
 
         private Sprite GetItemIcon(EquipmentCell cell) => cell.IsFilled ? GetItemSettings(cell.ItemId).Icon : null;

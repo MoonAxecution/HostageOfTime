@@ -35,9 +35,9 @@ RectTransform:
   - {fileID: 4850111314950357850}
   m_Father: {fileID: 8950997417824790855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 847.50006, y: -427.92297}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -112.49994, y: 112.07703}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5160923748284713233
@@ -309,7 +309,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
   turnTimerView: {fileID: 5534222768480796861}
-  attackButton: {fileID: 2106421710844511890}
+  skillButtons:
+  - {fileID: 553554932310191268}
+  - {fileID: 2178805916180059358}
+  - {fileID: 3407391703504683890}
 --- !u!1 &5229477310176048299
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,13 +401,14 @@ GameObject:
   - component: {fileID: 5442861973268628499}
   - component: {fileID: 506311625105320838}
   - component: {fileID: 2087610057288755673}
+  - component: {fileID: 2178805916180059358}
   m_Layer: 5
   m_Name: Skill_MainSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5875796317059262507
 RectTransform:
   m_ObjectHideFlags: 0
@@ -506,6 +510,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2178805916180059358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5715003594904118852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22331a27c44b36f46905f540bfc4cfc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillButton: {fileID: 2087610057288755673}
 --- !u!1 &7435644799305937271
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,13 +535,14 @@ GameObject:
   - component: {fileID: 2510281901411441394}
   - component: {fileID: 6933551492797993430}
   - component: {fileID: 8096411255627858128}
+  - component: {fileID: 3407391703504683890}
   m_Layer: 5
   m_Name: Skill_Ultimate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4850111314950357850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -626,6 +644,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3407391703504683890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7435644799305937271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22331a27c44b36f46905f540bfc4cfc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillButton: {fileID: 8096411255627858128}
 --- !u!1 &8592900788334257059
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,13 +669,14 @@ GameObject:
   - component: {fileID: 1483649413528648977}
   - component: {fileID: 8996664547634788415}
   - component: {fileID: 2106421710844511890}
+  - component: {fileID: 553554932310191268}
   m_Layer: 5
   m_Name: Skill_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1744606376460041542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -746,3 +778,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &553554932310191268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592900788334257059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22331a27c44b36f46905f540bfc4cfc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillButton: {fileID: 2106421710844511890}

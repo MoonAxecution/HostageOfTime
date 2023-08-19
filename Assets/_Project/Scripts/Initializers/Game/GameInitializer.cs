@@ -14,8 +14,7 @@ namespace HOT
 
         [Header("Settings")] 
         [SerializeField] private ItemsDatabaseSettings itemsDatabaseSettings;
-        [SerializeField] private ItemSettings[] defaultItems;
-        
+
         [Header("Assets")]
         [SerializeField] private AssetReference uiManagerAsset;
         [SerializeField] private AssetReference deadMessageScreenAsset;
@@ -60,20 +59,7 @@ namespace HOT
 
         private void CreateProfile()
         {
-            var profile = new Profile.Profile(resourceTime.Model);
-
-            foreach (ItemSettings item in defaultItems)
-            {
-                if (item is EquipmentSettings equipmentSettings)
-                {
-                    profile.AddItem(ItemSettingsToItemConverter.GetEquipmentItem(equipmentSettings));
-                    continue;
-                }
-                
-                profile.AddItem(ItemSettingsToItemConverter.GetItem(item));
-            }
-
-            RegisterComponent(profile);
+            RegisterComponent(new Profile.Profile(resourceTime.Model));
         }
 
         private async Task CreateUIManager()

@@ -1,4 +1,5 @@
 using HOT.Core.Reactive;
+using HOT.Equipment;
 using HOT.Inventory;
 using HOT.Inventory.Item;
 
@@ -22,19 +23,29 @@ namespace HOT.Profile
             equipment = new Equipment.Equipment();
         }
 
-        public void AddItem(Item item)
+        public bool AddItem(Item item)
         {
-            inventory.AddItem(item);
+            return inventory.AddItem(item);
         }
 
+        public void UseItem(InventoryCell cell)
+        {
+            inventory.UseItem(cell);
+        }
+        
         public void ApplyVaccine()
         {
             resourceTimeModel.IncreaseTime(3600);
         }
 
-        public void EquipEquipment(HOT.Inventory.Item.Equipment item)
+        public bool EquipEquipment(HOT.Inventory.Item.Equipment item)
         {
-            equipment.Equip(item);
+            return equipment.Equip(item);
+        }
+
+        public Item TakeOffEquipment(EquipmentCell cell)
+        {
+            return equipment.TakeOff(cell);
         }
     }
 }

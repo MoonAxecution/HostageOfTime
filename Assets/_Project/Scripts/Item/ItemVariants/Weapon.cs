@@ -1,16 +1,26 @@
 using HOT.Equipment;
+using HOT.Skills;
 
 namespace HOT.Inventory.Item
 {
     public class Weapon : Equipment
     {
-        public int MinDamage { get; }
-        public int MaxDamage { get; }
+        public Skill[] Skills { get; private set; }
 
-        public Weapon(ItemType type, int id, string name, EquipmentType equipmentType, int minDamage, int maxDamage) : base(type, id, name, equipmentType)
+        private Skill selectedSkill;
+        
+        public Weapon(ItemType type, int id, string name, EquipmentType equipmentType, Skill[] skills) 
+            : base(type, id, name, equipmentType)
         {
-            MinDamage = minDamage;
-            MaxDamage = maxDamage;
+            Skills = skills;
+            UseSkill(skills[0]);
         }
+
+        public void UseSkill(Skill skill)
+        {
+            selectedSkill = skill;
+        }
+
+        public int GetDamage() => selectedSkill.GetDamage();
     }
 }

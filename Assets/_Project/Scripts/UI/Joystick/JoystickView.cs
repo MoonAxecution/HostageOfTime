@@ -41,6 +41,7 @@ namespace HOT.UI
         private void OnDisable()
         {
             EnhancedTouchSupport.Disable();
+            ResetJoystickInfo();
         }
 
         public void Tick(float deltaTime)
@@ -82,6 +83,11 @@ namespace HOT.UI
         {
             if (triggeredFinger != movementFinger) return;
 
+            ResetJoystickInfo();
+        }
+
+        private void ResetJoystickInfo()
+        {
             movementFinger = null;
             joystickRect.transform.localPosition = originJoystickPosition;
             movablePointRect.anchoredPosition = Vector2.zero;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HOT.Creature;
 using HOT.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -22,13 +23,13 @@ namespace HOT.Battle
 
         public event Action TurnStarted;
 
-        public async Task CreateSide()
+        public async Task CreateSide(Humanoid[] allies)
         {
             this.Inject();
             
             targetSelector.TargetSelected += OnEnemySelected;
             
-            CreateAllies();
+            CreateAllies(allies);
             await CreateBattleScreen();
             
             CreateTurnTimer();
@@ -40,15 +41,16 @@ namespace HOT.Battle
             turnTimer.TimerEnded += OnTurnTimerExpired;
             tickerMono.Add(turnTimer);
             
-            playerBattleScreen.Init(turnTimer.LeftTime);
+            playerBattleScreen.SetTurnTimer(turnTimer.LeftTime);
+            playerBattleScreen.SetSkills(Allies[0].Weapon, Allies[0].WeaponSkills);
         }
         
-        protected override void CreateAllies()
+        protected override void CreateAllies(Humanoid[] allies)
         {
-            foreach (var ally in Allies)
+            for (int i = 0; i < allies.Length; i++)
             {
-                ally.Init(profile.Equipment);
-                ally.Died += OnAllyDied;
+                Allies[i].Init(allies[i]);
+                Allies[i].Died += OnAllyDied;
             }
         }
 

@@ -9,7 +9,14 @@ namespace HOT.Player
 
         private void LateUpdate()
         {
+            if (target == null) return;
+            
             transform.position = target.position + offset;
+        }
+
+        public void SetNewTarget(Transform newTarget)
+        {
+            target = newTarget;
         }
     }
 }

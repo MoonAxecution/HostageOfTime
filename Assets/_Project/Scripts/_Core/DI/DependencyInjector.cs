@@ -50,6 +50,19 @@ namespace HOT
                 }
             }
         }
+        
+        public static void RemoveComponent<T>()
+        {
+            RemoveComponent(components[typeof(T)]);
+        }
+
+        public static void RemoveComponent<T>(T removableComponent)
+        {
+            if (removableComponent is IDisposable cleanableComponent)
+                cleanableComponent.Dispose();
+
+            components.Remove(typeof(T));
+        }
 
         public static void ClearCache()
         {

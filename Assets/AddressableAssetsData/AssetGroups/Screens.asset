@@ -82,8 +82,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 38ce56a853204e740b0ce1e97ca7f1d6
-    m_Address: Assets/_Project/Scenes/Lobby/Scene_Lobby.unity
+  - m_GUID: 4a2cbcd5542679543b34be167f879dc2
+    m_Address: ContainerLootingScreen.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 630a50f98d5c59b42bf4bcba30160a05
+    m_Address: PlayerRoot.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

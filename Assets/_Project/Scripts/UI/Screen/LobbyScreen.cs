@@ -1,3 +1,5 @@
+using HOT.Battle;
+using HOT.Creature;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -6,28 +8,26 @@ namespace HOT.UI
 {
     public class LobbyScreen : Screen
     {
-        [Header("Screens")] 
-        [SerializeField] private AssetReference playerInfoScreen;
+        [Inject] private Profile.Profile profile;
+        
+        [Header("Screens")]
         [SerializeField] private AssetReference mapScreen;
 
         [Header("Buttons")]
-        [SerializeField] private Button playerInfoButton;
         [SerializeField] private Button mapButton;
         [SerializeField] private Button pvpButton;
 
         [Header("Scene indexes")]
         [SerializeField] private AssetReference battleSceneReference;
+        
+        //TODO: Переделать на генерацию снаряжения
+        [Header("Settings")] 
+        [SerializeField] private EnemyBattleSetup[] enemySetups;
 
         protected override void OnAwaken()
         {
-            playerInfoButton.onClick.AddListener(OpenPlayerInfo);
             mapButton.onClick.AddListener(OpenMap);
             pvpButton.onClick.AddListener(OpenPvP);
-        }
-
-        private void OpenPlayerInfo()
-        {
-            uiManager.OpenScreen(playerInfoScreen);
         }
 
         private void OpenMap()
@@ -37,6 +37,7 @@ namespace HOT.UI
 
         private void OpenPvP()
         {
+            DependencyInjector.ReplaceComponent(BattleSetupFactory.Create(profile, enemySetups));
             LoadScene(battleSceneReference);
         }
 

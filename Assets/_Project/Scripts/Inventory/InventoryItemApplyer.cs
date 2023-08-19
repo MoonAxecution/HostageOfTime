@@ -32,13 +32,14 @@ namespace HOT.Inventory
         {
             crossSessionData.DieTime += 3600;
             profile.ApplyVaccine();
-            inventoryCell.UseItem();
+            profile.UseItem(inventoryCell);
         }
 
         private void ApplyEquipment(InventoryCell inventoryCell)
         {
-            profile.EquipEquipment(inventoryCell.Item as HOT.Inventory.Item.Equipment);
-            inventoryCell.UseItem();
+            if (!profile.EquipEquipment(inventoryCell.Item as HOT.Inventory.Item.Equipment)) return;
+            
+            profile.UseItem(inventoryCell);
         }
     }
 }

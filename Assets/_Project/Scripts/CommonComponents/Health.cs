@@ -13,15 +13,13 @@ namespace HOT.Components
         private readonly ReactiveProperty<int> currentHealth;
         private readonly ReactiveProperty<int> maxHealth;
 
-        private const int StaticHealth = 50;
-
         public IReactiveProperty<int> CurrentHealth => currentHealth;
         public IReactiveProperty<int> MaxHealth => maxHealth;
 
-        public Health()
+        public Health(int defaultHealth)
         {
-            currentHealth = new ReactiveProperty<int>(StaticHealth);
-            maxHealth = new ReactiveProperty<int>(StaticHealth);
+            this.currentHealth = new ReactiveProperty<int>(defaultHealth);
+            this.maxHealth = new ReactiveProperty<int>(defaultHealth);
         }
 
         public void UpdateMaxHealth(int value)

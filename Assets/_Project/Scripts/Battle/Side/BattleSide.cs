@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using HOT.Creature;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace HOT.Battle
 {
@@ -34,7 +34,7 @@ namespace HOT.Battle
             allies.Add(creature);
         }
 
-        protected abstract void CreateAllies();
+        protected abstract void CreateAllies(Humanoid[] allies);
 
         protected void OnAllyDied(BattleCreatureCompositeRoot ally)
         {

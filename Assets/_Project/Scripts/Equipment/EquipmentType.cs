@@ -2,7 +2,7 @@
 {
     public enum EquipmentType
     {
-        Helment,
+        Helmet,
         Armor,
         Boots,
         Weapon

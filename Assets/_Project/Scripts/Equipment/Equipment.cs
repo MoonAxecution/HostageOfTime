@@ -1,53 +1,77 @@
 using System;
 using System.Collections.Generic;
+using HOT.Core.Reactive;
 using HOT.Inventory.Item;
-using Random = UnityEngine.Random;
+using HOT.Skills;
 
 namespace HOT.Equipment
 {
     public class Equipment
     {
         private readonly Dictionary<EquipmentType, EquipmentCell> cells;
+        private readonly EquipedWeaponManager equipedWeaponManager;
 
-        public bool IsWeaponSet => GetCell(EquipmentType.Weapon).Item != null;
+        public IReactiveProperty<bool> IsWeaponSet { get; }
 
-        public event Action WeaponEquiped;
-        
+        public Weapon Weapon => equipedWeaponManager.EquipedWeapon;
+        public Skill[] WeaponSkills => equipedWeaponManager.Skills;
+        public bool IsHelmetSet => GetCell(EquipmentType.Helmet).Item != null;
+
         public Equipment()
         {
+            IsWeaponSet = new ReactiveProperty<bool>();
+
             cells = new Dictionary<EquipmentType, EquipmentCell>();
+            CreateCells();
             
-            foreach (var type in (EquipmentType[])Enum.GetValues(typeof(EquipmentType)))
-                cells.Add(type, new EquipmentCell());
+            equipedWeaponManager = new EquipedWeaponManager(GetCell(EquipmentType.Weapon));
         }
 
-        public void Equip(HOT.Inventory.Item.Equipment equipment)
+        private void CreateCells()
         {
-            GetCell(equipment.EquipmentType).SetItem(equipment);
+            foreach (var type in (EquipmentType[])Enum.GetValues(typeof(EquipmentType)))
+                cells.Add(type, new EquipmentCell());
+
+            GetCell(EquipmentType.Weapon).Equiped += () =>
+            {
+                IsWeaponSet.Value = true;
+            };
             
-            if (equipment.EquipmentType == EquipmentType.Weapon)
-                WeaponEquiped.Fire();
+            GetCell(EquipmentType.Weapon).TookOff += () =>
+            {
+                IsWeaponSet.Value = false;
+            };
+        }
+
+        public bool Equip(HOT.Inventory.Item.Equipment equipment)
+        {
+            EquipmentCell equipmentCell = GetCell(equipment.EquipmentType);
+            
+            if (equipmentCell.Item != null) return false;
+            
+            equipmentCell.SetItem(equipment);
+            return true;
+        }
+
+        public Item TakeOff(EquipmentCell cell)
+        {
+            Item itemInCell = cell.Item;
+            cell.TakeOffItem();
+
+            return itemInCell;
         }
 
         public EquipmentCell GetCell(EquipmentType type) => cells[type];
 
         public int GetHealthModifier()
         {
-            Item helmet = GetCell(EquipmentType.Helment).Item;
+            Item helmet = GetCell(EquipmentType.Helmet).Item;
             return (helmet as Armor)?.AdditionalHealth ?? 0;
         }
         
         public int GetDamage()
         {
-            return IsWeaponSet ? GetWeaponDamage() : GetUnarmedDamage();
+            return equipedWeaponManager.GetDamage();
         }
-        
-        private int GetWeaponDamage()
-        {
-            Weapon weapon = GetCell(EquipmentType.Weapon).Item as Weapon;
-            return Random.Range(weapon.MinDamage, weapon.MaxDamage + 1);
-        }
-
-        private int GetUnarmedDamage() => Random.Range(3, 6);
     }
 }
